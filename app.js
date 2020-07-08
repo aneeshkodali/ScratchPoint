@@ -16,7 +16,7 @@ else { console.log('Syntax Error: ' + err) }
 });
 // import models
 const Player = require("./models/player");
-const Point = require(".models/point");
+const Point = require("./models/point");
 
 
 
@@ -54,14 +54,50 @@ app.post("/", (req, res) => {
             if (err) console.log(err);
         });
     }
+
+    // delete previous player records
+    // revisit this to delete on app start or app end
+    Point.deleteMany({}, err => {
+        if (err) console.log(err);
+    });
+    
+
+    // create match data and add to DB
+    Point.create({
+        point: 1,
+    setScoreServer: 2,
+    setScoreReceiver: 1,
+    gameScoreServer: 1,
+    gameScoreReceiver: 2,
+    pointScoreServer: "15",
+    pointScoreReceiver: "30",
+
+    //setInMatch: Number,
+    //gameInSet: Number,
+    //setScore: String,
+    //gameScore: String,
+    //pointScore: String,
+
+    server: "Aneesh",
+    receiver: "Anu",
+    side: "deuce",
+    rallyLength: 5,
+    result: "forced error",
+    winner: "Anu",
+    loser: "Aneesh"
+    }, (err, match) => {
+        if (err) console.log(err);
+    })
     // show 'match' page
     res.redirect("/match");
 })
 
 app.get("/match", (req, res) => {
 
-
-    res.render("match");
+    Point.find({}).exec((err, points) => {
+        if (err) console.log(err);
+        else res.render("match", {points: points});
+    })
 })
 
 const port = 3000;
