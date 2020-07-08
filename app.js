@@ -1,8 +1,21 @@
+// ################
+// IMPORT
+// ################
 const express = require("express");
+
+// ################
+// APP CONFIG
+// ################
 const app = express();
+// set view engine to run ejs files
+app.set("view engine", "ejs");
+
+// ################
+// ROUTES
+// ################
 
 app.get("/", (req, res) => {
-    res.send("HOME PAGE");
+    res.render("home");
 });
 
 const port = 3000;
