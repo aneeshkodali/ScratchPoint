@@ -3,6 +3,25 @@
 <h1>Net Generator</h1>
 <p>Welcome to Net Generator, a site that can generate matches on the fly!</p>
 
+<form>
+    <div>
+        <input type="text" placeholder="Name">
+    </div>
+    <div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" checked>
+            <label class="custom-control-label" for="customRadioInline1">Right</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+            <label class="custom-control-label" for="customRadioInline2">Left</label>
+        </div>
+    </div>
+    <div>
+        <input type="text" placeholder="Paste Image URL">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 
+</form>
 
 <%- include("partials/footer") %>
