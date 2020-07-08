@@ -25,8 +25,12 @@ app.get("/", (req, res) => {
 
 // when data submitted for players
 app.post("/", (req, res) => {
-    console.log(req.body);
-    res.redirect("match");
+    let reqBody = req.body;
+    let playerArr = [];
+    for (let key in reqBody) {
+        playerArr.push(reqBody[key]);
+    }
+    res.render("match", {players: playerArr});
 })
 
 app.get("/match", (req, res) => {

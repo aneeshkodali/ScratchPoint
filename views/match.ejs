@@ -2,4 +2,8 @@
 
 <h1>MATCH PAGE</h1>
 
+<% for (let player of players) { %>
+    <li><%= player.name %></li>
+<% } %>
+
 <%- include("partials/footer") %>
