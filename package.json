@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/aneeshkodali/NetGenerator/issues"
   },
-  "homepage": "https://github.com/aneeshkodali/NetGenerator#readme"
+  "homepage": "https://github.com/aneeshkodali/NetGenerator#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
