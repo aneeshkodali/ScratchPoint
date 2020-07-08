@@ -29,6 +29,8 @@ app.set("view engine", "ejs");
 // use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
+const seedDBMatch = require("./seedMatch");
+
 
 // ################
 // ROUTES
@@ -62,32 +64,9 @@ app.post("/", (req, res) => {
     });
     
 
-    // create match data and add to DB
-    Point.create({
-        point: 1,
-    setScoreServer: 2,
-    setScoreReceiver: 1,
-    gameScoreServer: 1,
-    gameScoreReceiver: 2,
-    pointScoreServer: "15",
-    pointScoreReceiver: "30",
-
-    //setInMatch: Number,
-    //gameInSet: Number,
-    //setScore: String,
-    //gameScore: String,
-    //pointScore: String,
-
-    server: "Aneesh",
-    receiver: "Anu",
-    side: "deuce",
-    rallyLength: 5,
-    result: "forced error",
-    winner: "Anu",
-    loser: "Aneesh"
-    }, (err, match) => {
-        if (err) console.log(err);
-    })
+    // add match data
+    seedDBMatch();
+    
     // show 'match' page
     res.redirect("/match");
 })
