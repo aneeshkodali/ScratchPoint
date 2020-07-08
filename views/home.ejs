@@ -4,22 +4,45 @@
 <p>Welcome to Net Generator, a site that can generate matches on the fly!</p>
 
 <form action="/" method="POST">
+
     <div>
-        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="player1[name]" placeholder="Name" required>
     </div>
     <div>
         <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="plays_right" name="plays" value="right" class="custom-control-input" checked>
-            <label class="custom-control-label" for="plays_right">Right</label>
+            <input type="radio" id="player1_plays_right" name="player1[plays]" value="right" class="custom-control-input" checked>
+            <label class="custom-control-label" for="player1_plays_right">Right</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="plays_left" name="plays" class="custom-control-input">
-            <label class="custom-control-label" for="plays_left">Left</label>
+            <input type="radio" id="player1_plays_left" name="player1[image]" class="custom-control-input">
+            <label class="custom-control-label" for="player1_plays_left">Left</label>
         </div>
     </div>
     <div>
-        <input type="text" name="image" placeholder="Paste Image URL">
+        <input type="text" name="player1[image]" placeholder="Paste Image URL">
     </div>
+
+
+
+    <div>
+        <input type="text" name="player2[name]" placeholder="Name" required>
+    </div>
+    <div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="player2_plays_right" name="player2[plays]" value="right" class="custom-control-input" checked>
+            <label class="custom-control-label" for="player2_plays_right">Right</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="player2_plays_left" name="player2[image]" class="custom-control-input">
+            <label class="custom-control-label" for="player2_plays_left">Left</label>
+        </div>
+    </div>
+    <div>
+        <input type="text" name="player2[image]" placeholder="Paste Image URL">
+    </div>
+
+
+
     <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>

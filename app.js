@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 
 // when data submitted for players
 app.post("/", (req, res) => {
+    
     res.redirect("match");
 })
 
