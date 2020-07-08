@@ -5,43 +5,26 @@
 
 <form action="/" method="POST">
 
-    <div>
-        <input type="text" name="player1[name]" placeholder="Name" required>
-    </div>
-    <div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="player1_plays_right" name="player1[plays]" value="right" class="custom-control-input" checked>
-            <label class="custom-control-label" for="player1_plays_right">Right</label>
+    <% for (let player of ["player1", "player2"]) { %>
+        <div>
+            <input type="text" name="<%= player %>[name]" placeholder="Name" required>
         </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="player1_plays_left" name="player1[image]" class="custom-control-input">
-            <label class="custom-control-label" for="player1_plays_left">Left</label>
+
+        <div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="<%= player %>_plays_right" name="<%= player %>[plays]" value="right" class="custom-control-input" checked>
+                <label class="custom-control-label" for="<%= player %>_plays_right">Right</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="<%= player %>_plays_left" name="<%= player %>[image]" class="custom-control-input">
+                <label class="custom-control-label" for="<%= player %>_plays_left">Left</label>
+            </div>
         </div>
-    </div>
-    <div>
-        <input type="text" name="player1[image]" placeholder="Paste Image URL">
-    </div>
 
-
-
-    <div>
-        <input type="text" name="player2[name]" placeholder="Name" required>
-    </div>
-    <div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="player2_plays_right" name="player2[plays]" value="right" class="custom-control-input" checked>
-            <label class="custom-control-label" for="player2_plays_right">Right</label>
+        <div>
+            <input type="text" name="<%= player %>[image]" placeholder="Paste Image URL">
         </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="player2_plays_left" name="player2[image]" class="custom-control-input">
-            <label class="custom-control-label" for="player2_plays_left">Left</label>
-        </div>
-    </div>
-    <div>
-        <input type="text" name="player2[image]" placeholder="Paste Image URL">
-    </div>
-
-
+    <% } %>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 
