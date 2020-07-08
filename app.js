@@ -9,10 +9,13 @@ const mongoose = require("mongoose");
 // DB CONFIG
 // ################
 const mongodb_uri = process.env.MONGODB_URI || "mongodb://localhost:27017/nextgen";
+// connect to DB
 mongoose.connect(mongodb_uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, (err) => {
 if (!err) { console.log('Successfully Connected in MongoDB') }
 else { console.log('Syntax Error: ' + err) }
 });
+// import Player model
+const Player = require("./models/player");
 
 
 
@@ -37,17 +40,28 @@ app.get("/", (req, res) => {
 
 // when data submitted for players
 app.post("/", (req, res) => {
+    // delete previous player records
+    // revisit this to delete on app start or app end
+    Player.deleteMany({}, err => {
+        if (err) console.log(err);
+    });
+    
+    // add players to DB
     let reqBody = req.body;
-    let playerArr = [];
     for (let key in reqBody) {
-        playerArr.push(reqBody[key]);
+        Player.create(reqBody[key], (err, player) => {
+            if (err) console.log(err);
+        });
     }
-    res.render("match", {players: playerArr});
+    // show 'match' page
+    res.redirect("/match");
 })
 
-//app.get("/match", (req, res) => {
-//    res.render("match");
-//})
+app.get("/match", (req, res) => {
+
+
+    res.render("match");
+})
 
 const port = 3000;
 app.listen(port, () => {
