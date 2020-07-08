@@ -182,7 +182,7 @@ const data = [
 
 ];
 
-function seedDBMatch() {
+function seedDBPoint() {
     // delete points in match
     Point.deleteMany({}, err => {
         if (err) console.log(err);
@@ -197,4 +197,4 @@ function seedDBMatch() {
     })
 }
 
-module.exports = seedDBMatch;
+module.exports = seedDBPoint;

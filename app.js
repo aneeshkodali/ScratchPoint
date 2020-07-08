@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 // use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
-const seedDBMatch = require("./seedMatch");
+const seedDBPoint = require("./seedPoint");
 
 
 // ################
@@ -65,7 +65,7 @@ app.post("/", (req, res) => {
     
 
     // add match data
-    seedDBMatch();
+    seedDBPoint();
     
     // show 'match' page
     res.redirect("/match");
