@@ -18,6 +18,10 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
+app.get("/match", (req, res) => {
+    res.render("match");
+})
+
 const port = 3000;
 app.listen(port, () => {
     console.log("Server running...");
