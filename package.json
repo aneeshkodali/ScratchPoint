@@ -1,0 +1,19 @@
+{
+  "name": "netgenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aneeshkodali/NetGenerator.git"
+  },
+  "author": "Aneesh Kodali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aneeshkodali/NetGenerator/issues"
+  },
+  "homepage": "https://github.com/aneeshkodali/NetGenerator#readme"
+}
