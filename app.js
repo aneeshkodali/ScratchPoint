@@ -3,6 +3,18 @@
 // ################
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+// ################
+// DB CONFIG
+// ################
+const mongodb_uri = process.env.MONGODB_URI || "mongodb://localhost:27017/nextgen";
+mongoose.connect(mongodb_uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, (err) => {
+if (!err) { console.log('Successfully Connected in MongoDB') }
+else { console.log('Syntax Error: ' + err) }
+});
+
+
 
 // ################
 // APP CONFIG
@@ -33,9 +45,9 @@ app.post("/", (req, res) => {
     res.render("match", {players: playerArr});
 })
 
-app.get("/match", (req, res) => {
-    res.render("match");
-})
+//app.get("/match", (req, res) => {
+//    res.render("match");
+//})
 
 const port = 3000;
 app.listen(port, () => {
