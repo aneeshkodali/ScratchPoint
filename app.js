@@ -69,15 +69,14 @@ app.post("/", (req, res) => {
     
     // show 'match' page
     res.redirect("/match");
-})
+});
 
-app.get("/match", (req, res) => {
+const matchRoutes = require("./routes/match");
+app.use("/match", matchRoutes);
 
-    Point.find({}).exec((err, points) => {
-        if (err) console.log(err);
-        else res.render("match", {points: points});
-    })
-})
+
+
+
 
 const port = 3000;
 app.listen(port, () => {
