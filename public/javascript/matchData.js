@@ -1,2 +1,6 @@
 const pointTableRows = document.querySelectorAll("#pointTable tbody tr");
-console.log(pointTableRows);
+pointTableRows.forEach(row => {
+    row.addEventListener("click", e => {
+        console.log(e.target.parentNode.id);
+    });
+});

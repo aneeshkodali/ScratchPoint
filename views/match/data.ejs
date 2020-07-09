@@ -13,7 +13,7 @@
       <table  id="pointTable" class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Point #</th>
             <th scope="col">Set Score</th>
             <th scope="col">Game Score</th>
             <th scope="col">Point Score</th>
@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         <% points.forEach(point => { %>
-          <tr>
+          <tr id="<%= point._id %>">
                 <th scope="row"><%= point.point %></th>
                 <td><%= point.setScore %></td>
                 <td><%= point.gameScore %></td>
