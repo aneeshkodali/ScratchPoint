@@ -18,7 +18,7 @@ const pointSchema = new mongoose.Schema({
     result: String,
     winner: String,
     loser: String,
-    shots = [{type: Schema.Types.ObjectId, ref: 'Shot'}]
+    shots: [{type: mongoose.Schema.Types.ObjectId, ref: 'Shot'}]
 }, opts);
 
 
