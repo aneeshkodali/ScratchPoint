@@ -39,6 +39,42 @@ const data = [
         shot: "Forehand",
         shotLocation: "Crosscourt",
         shotResult: "Unforced Error"
+    },
+    {
+        point: 2,
+        shotNum: 1,
+        shotNumWithServe: 1,
+        shotBy: "Aneesh",
+        shot: "1st Serve",
+        shotLocation: "Wide",
+        shotResult: "None"
+    },
+    {
+        point: 2,
+        shotNum: 2,
+        shotNumWithServe: 2,
+        shotBy: "Anu",
+        shot: "Backhand",
+        shotLocation: "Crosscourt",
+        shotResult: "None"
+    },
+    {
+        point: 2,
+        shotNum: 3,
+        shotNumWithServe: 3,
+        shotBy: "Aneesh",
+        shot: "Backhand",
+        shotLocation: "Down the Line",
+        shotResult: "None"
+    },
+    {
+        point: 2,
+        shotNum: 4,
+        shotNumWithServe: 4,
+        shotBy: "Anu",
+        shot: "Forehand",
+        shotLocation: "Crosscourt",
+        shotResult: "Unforced Error"
     }
 ];
 

@@ -7,21 +7,22 @@ const seedDBShot = require("../seeds/seedShot");
 const Shot = require("../models/shot");
 
 
-// INDEX - show match page
+// home - show match page
 router.get("/", function(req, res) {
 
     seedDBPoint();
     seedDBShot();
     
-    res.render("match/index");
+    res.render("match/home");
 });
 
 // see match data
-router.get("/data", function(req, res) {
+router.get("/points", function(req, res) {
+
 
     Point.find({}).populate("shots").exec((err, points) => {
         if (err) console.log(err);
-        else res.render("match/data", {points: points});
+        else res.render("match/points", {points: points});
     })
     
 })

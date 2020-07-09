@@ -4,6 +4,7 @@ const Point = require("../models/point");
 const Player = require("../models/player");
 
 const seedDBPoint = require("../seeds/seedPoint");
+const seedDBShot = require("../seeds/seedShot");
 
 
 // root route
@@ -27,15 +28,9 @@ router.post("/", (req, res) => {
         });
     }
 
-    // delete previous player records
-    // revisit this to delete on app start or app end
-    Point.deleteMany({}, err => {
-        if (err) console.log(err);
-    });
-    
-
     // add match data
     seedDBPoint();
+    seedDBShot();
     
     // show 'match' page
     res.redirect("/match");

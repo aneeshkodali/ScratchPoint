@@ -60,7 +60,9 @@
         </tr>
       </thead>
       <tbody>
-      <% points.forEach(point => { %>
+        
+
+      <!--<% points.forEach(point => { %>
         <% point.shots.sort((a,b) => { %>
           <% return a.shotNum - b.shotNum || a.shotNumWithServe - b.shotNumWithServe %>
         <% }).forEach(shot => { %>
@@ -74,13 +76,12 @@
             <td><%= shot.shotResult %></td>
           </tr>
         <% }) %>
-      <% }) %>
+      <% }) %>-->
       </tbody>
     </table>
   </div>
 </div>
 
-    
 </div>
 
 

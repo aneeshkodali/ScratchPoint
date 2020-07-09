@@ -5,6 +5,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+
+
 // ################
 // DB CONFIG
 // ################
@@ -15,8 +17,8 @@ if (!err) { console.log('Successfully Connected in MongoDB') }
 else { console.log('Syntax Error: ' + err) }
 });
 // import models
-const Player = require("./models/player");
-const Point = require("./models/point");
+//const Player = require("./models/player");
+//const Point = require("./models/point");
 
 
 
