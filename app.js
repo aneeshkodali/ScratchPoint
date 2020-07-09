@@ -28,6 +28,8 @@ const app = express();
 app.set("view engine", "ejs");
 // use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
+// use public folder
+app.use(express.static(__dirname + "/public"));
 
 
 
