@@ -29,48 +29,14 @@ app.set("view engine", "ejs");
 // use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
-const seedDBPoint = require("./seeds/seedPoint");
 
 
 // ################
 // ROUTES
 // ################
 
-// root route
-app.get("/", (req, res) => {
-    res.render("home");
-});
-
-// when data submitted for players
-app.post("/", (req, res) => {
-    // delete previous player records
-    // revisit this to delete on app start or app end
-    Player.deleteMany({}, err => {
-        if (err) console.log(err);
-    });
-    
-    // add players to DB
-    let reqBody = req.body;
-    for (let key in reqBody) {
-        Player.create(reqBody[key], (err, player) => {
-            if (err) console.log(err);
-        });
-    }
-
-    // delete previous player records
-    // revisit this to delete on app start or app end
-    Point.deleteMany({}, err => {
-        if (err) console.log(err);
-    });
-    
-
-    // add match data
-    seedDBPoint();
-    
-    // show 'match' page
-    res.redirect("/match");
-});
-
+const homeRoutes = require("./routes/home");
+app.use("/", homeRoutes);
 const matchRoutes = require("./routes/match");
 app.use("/match", matchRoutes);
 
