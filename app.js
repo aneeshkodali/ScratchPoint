@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 // use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
-const seedDBPoint = require("./seedPoint");
+const seedDBPoint = require("./seeds/seedPoint");
 
 
 // ################

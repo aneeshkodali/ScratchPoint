@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Player = require("./models/player");
-const Point = require("./models/point");
+const Player = require("../models/player");
+const Point = require("../models/point");
 
 const data = [
     {
