@@ -22,6 +22,7 @@
             <th scope="col">Rally Length</th>
             <th scope="col">Result</th>
             <th scope="col">Winner</th>
+
           </tr>
         </thead>
         <tbody>
@@ -35,7 +36,7 @@
                 <td><%= point.side %></td>
                 <td><%= point.rallyLength %></td>
                 <td><%= point.result %></td>
-                <td><%= point.winner %></td>
+                <td><%= point.winner %></td>                
           </tr>
         <% }) %>
         </tbody>
@@ -47,7 +48,7 @@
  <div class="col-md-6">
   <h2 class="sub-header">Shots</h2>
   <div class="table-responsive">
-    <table class="table table-striped table-bordered">
+    <table id="shotTable" class="table table-striped table-bordered">
       <thead>
         <tr>
           <th scope="col">Point #</th>
@@ -60,9 +61,8 @@
         </tr>
       </thead>
       <tbody>
-        
-
-      <!--<% points.forEach(point => { %>
+       
+      <% points.forEach(point => { %>
         <% point.shots.sort((a,b) => { %>
           <% return a.shotNum - b.shotNum || a.shotNumWithServe - b.shotNumWithServe %>
         <% }).forEach(shot => { %>
@@ -76,7 +76,7 @@
             <td><%= shot.shotResult %></td>
           </tr>
         <% }) %>
-      <% }) %>-->
+      <% }) %>
       </tbody>
     </table>
   </div>
