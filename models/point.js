@@ -11,20 +11,14 @@ const pointSchema = new mongoose.Schema({
     gameScoreReceiver: Number,
     pointScoreServer: String,
     pointScoreReceiver: String,
-
-    //setInMatch: Number,
-    //gameInSet: Number,
-    //setScore: String,
-    //gameScore: String,
-    //pointScore: String,
-
     server: String,
     receiver: String,
     side: String,
     rallyLength: Number,
     result: String,
     winner: String,
-    loser: String
+    loser: String,
+    shots = [{type: Schema.Types.ObjectId, ref: 'Shot'}]
 }, opts);
 
 
