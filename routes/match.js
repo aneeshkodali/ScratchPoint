@@ -2,8 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Point = require("../models/point");
 
+const seedDBPoint = require("../seeds/seedPoint");
+
+
 // INDEX - show match page
 router.get("/", function(req, res) {
+
+    seedDBPoint();
+    
     res.render("match/index");
 });
 
