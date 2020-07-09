@@ -5,6 +5,7 @@ const shotSchema = new mongoose.Schema({
     shotNum: Number,
     shotNumWithServe: Number,
     shotBy: String,
+    shot: String,
     shotLocation: String,
     shotResult: String
 });
