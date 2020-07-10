@@ -13,7 +13,6 @@ const pointSchema = new mongoose.Schema({
     pointScoreReceiver: String,
     server: String,
     receiver: String,
-    side: String,
     rallyLength: Number,
     result: String,
     winner: String,
@@ -24,6 +23,10 @@ const pointSchema = new mongoose.Schema({
 
 
 // VIRTUALS
+pointSchema.virtual("side").get(function() {
+    return (this.pointScoreServer+this.pointScoreReceiver) % 2 === 0 ? "deuce" : "ad";
+})
+
 pointSchema.virtual("setInMatch").get(function() {
     return this.setScoreServer + this.setScoreServer + 1;
 });
