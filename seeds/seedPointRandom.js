@@ -1,6 +1,6 @@
 // initialize players
-const player1 = "Aneesh";
-const player2 = "Anu";
+const player1 = "Iron Man";
+const player2 = "Thor";
 const players = [player1, player2];
 
 // generate point winner - random draw from players array
@@ -11,12 +11,17 @@ function generatePlayer() {
 
 // generate rally length - randomly pick number
 function generatePointRallyLength() {
-    return Math.ceil(Math.random()*(4-1) + 1);
+    const min = 1;
+    const max = 2;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 // generate point result using server, winner, and rally length
-function generatePointResult(pointServer, pointWinner, pointRallyLength) {
+function generatePointResult(point) {
     const errorList = ["forced error", "unforced error"];
+    const pointWinner = point["winner"];
+    const pointServer = point["server"];
+    const pointRallyLength = point["rallyLength"];
 
     if (pointWinner === pointServer) {
         if (pointRallyLength === 1) return "ace";
@@ -38,6 +43,21 @@ function generatePointResult(pointServer, pointWinner, pointRallyLength) {
     }
 };
 
+function generateShotLocation() {
+
+    //const shotStroke = shot["shotStroke"];
+    //const locationList = ["crosscourt", "down the middle", "down the line", "inside out", "inside in"];
+    //const locationListServe = ["out wide", "into the body", "down the T"];
+
+    //if (shotStroke.includes("serve")) return locationListServe[Math.floor(Math.random()*locationListServe.length)];
+    //else return locationList[Math.floor(Math.random()*locationList.length)];
+    return "crosscourt";
+}
+
+function generateShotStroke() {
+    return "forehand";
+}
+
 
 let pointData = [];
 
@@ -51,7 +71,7 @@ let pointScorePlayer1 = 0;
 let pointScorePlayer2 = 0;
 let server = generatePlayer();
 
-while (point <= 5) {
+while (point <= 2) {
     let pointObj = {
         point: point,
         setScorePlayer1: setScorePlayer1,
@@ -84,7 +104,23 @@ while (point <= 5) {
 
     pointObj["winner"] = generatePlayer(),
     pointObj["rallyLength"] =  generatePointRallyLength(),
-    pointObj["result"] = generatePointResult(pointObj["server"], pointObj["winner"], pointObj["rallyLength"]);
+    pointObj["result"] = generatePointResult(pointObj);
+
+    let shotArr = [];
+    for (let i = 1; i <= pointObj["rallyLength"]; i++) {
+        let shotObj = {
+            pointNum: point,
+            shotNum: i,
+            shotNumWithServe: i
+        };
+        shotObj["shotBy"] = shotObj["shotNum"] % 2 === 0 ? pointObj["receiver"] : pointObj["server"];
+        shotObj["shotStroke"] = generateShotStroke();
+        shotObj["shotLocation"] = generateShotLocation();
+        shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
+
+        shotArr.push(shotObj);
+    };
+    pointObj["shots"] = shotArr;
     
     pointData.push(pointObj);
     
