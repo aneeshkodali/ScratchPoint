@@ -39,7 +39,7 @@ function generatePointResult(pointServer, pointWinner, pointRallyLength) {
 };
 
 
-let pointDataRandom = [];
+let pointData = [];
 
 // initialize data for 1st point (all other data for this point and for other points will be calculated from these)    
 let point = 1;
@@ -86,15 +86,14 @@ while (point <= 5) {
     pointObj["rallyLength"] =  generatePointRallyLength(),
     pointObj["result"] = generatePointResult(pointObj["server"], pointObj["winner"], pointObj["rallyLength"]);
     
-    pointDataRandom.push(pointObj);
+    pointData.push(pointObj);
     
     if (pointObj["winner"] === player1) pointScorePlayer1++;
     else pointScorePlayer2++;
     
     point++;
 };
-console.log(pointArr);
 
 
-module.exports = pointDataRandom;
+module.exports = pointData;
 

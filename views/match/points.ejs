@@ -60,22 +60,16 @@
         </tr>
       </thead>
       <tbody>
-       
-      <% points.forEach(point => { %>
-        <% point.shots.sort((a,b) => { %>
-          <% return a.shotNum - b.shotNum || a.shotNumWithServe - b.shotNumWithServe %>
-        <% }).forEach(shot => { %>
+     
           <tr>
-            <td><%= shot.point %></td>
-            <td><%= shot.shotNum %></td>
-            <td><%= shot.shotNumWithServe %></td>
-            <td><%= shot.shotBy %></td>
-            <td><%= shot.shot %></td>
-            <td><%= shot.shotLocation %></td>
-            <td><%= shot.shotResult %></td>
+            <td>shot.point</td>
+            <td>shot.shotNum</td>
+            <td>shot.shotNumWithServe</td>
+            <td>shot.shotBy</td>
+            <td>shot.shot</td>
+            <td>shot.shotLocation</td>
+            <td>shot.shotResult</td>
           </tr>
-        <% }) %>
-      <% }) %>
       </tbody>
     </table>
   </div>
