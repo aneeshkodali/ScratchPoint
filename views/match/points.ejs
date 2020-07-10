@@ -1,6 +1,6 @@
 <%- include("../partials/header") %>
 
-<h1>MATCH ADDED</h1>
+<h1>Match Data</h1>
 
 <a href="/match">Go back</a>
 
@@ -10,7 +10,7 @@
   <div class="col-md-6">
     <h2 class="sub-header">Points</h2>
     <div class="table-responsive">
-      <table  id="pointTable" class="table table-striped table-bordered">
+      <table id="pointTable" class="table table-striped table-bordered">
         <thead>
           <tr>
             <th scope="col">Point #</th>
@@ -22,21 +22,20 @@
             <th scope="col">Rally Length</th>
             <th scope="col">Winner</th>
             <th scope="col">Result</th>
-
           </tr>
         </thead>
         <tbody>
         <% points.forEach(point => { %>
-          <tr id="<%= point._id %>">
-                <th scope="row"><%= point.point %></th>
-                <td><%= point.setScore %></td>
-                <td><%= point.gameScore %></td>
-                <td><%= point.pointScore %></td>
-                <td><%= point.server %></td>
-                <td><%= point.side %></td>
-                <td><%= point.rallyLength %></td>
-                <td><%= point.winner %></td>                
-                <td><%= point.result %></td>
+          <tr>
+              <th scope="row"><%= point.point %></th>
+              <td><%= point.setScore %></td>
+              <td><%= point.gameScore %></td>
+              <td><%= point.pointScore %></td>
+              <td><%= point.server %></td>
+              <td><%= point.side %></td>
+              <td><%= point.rallyLength %></td>
+              <td><%= point.winner %></td>                
+              <td><%= point.result %></td>
             </tr>
         <% }) %>
         </tbody>
