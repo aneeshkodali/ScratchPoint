@@ -4,46 +4,6 @@ const Point = require("../models/point");
 
 const player1 = "Aneesh";
 const player2 = "Anu";
-const players = [player1, player2];
-
-// generate point winner - random draw from players array
-function generatePointWinner() {
-    const randNum = Math.floor(Math.random()*players.length);
-    return players[randNum];
-}
-
-// generate rally length - randomly pick number
-function generatePointRallyLength() {
-    return Math.ceil(Math.random()*(4-1) + 1);
-};
-
-// generate point result using server, winner, and rally length
-function generatePointResult(pointServer, pointWinner, pointRallyLength) {
-    return;
-}
-
-// initial data
-let point = 1;
-let setScorePlayer1 = 0;
-let setScorePlayer2 = 0;
-let gameScorePlayer1 = 0;
-let gameScorePlayer2 = 0;
-let pointScorePlayer1 = 0;
-let pointScorePlayer2 = 0;
-let server = player1;
-//winner: generatePointWinner(),
-//rallyLength: generateRallyLength(),
-let pointObj = {
-    point: point,
-    setScorePlayer1: setScorePlayer1,
-    setScorePlayer2: setScorePlayer2,
-    gameScorePlayer1: gameScorePlayer1,
-    gameScorePlayer2: gameScorePlayer2,
-    pointScorePlayer1: pointScorePlayer1,
-    pointScorePlayer2: pointScorePlayer2
-};
-
-
 
 
 const data = [
