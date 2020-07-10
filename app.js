@@ -10,12 +10,12 @@ const mongoose = require("mongoose");
 // ################
 // DB CONFIG
 // ################
-const mongodb_uri = process.env.MONGODB_URI || "mongodb://localhost:27017/netgen";
-// connect to DB
-mongoose.connect(mongodb_uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, (err) => {
-if (!err) { console.log('Successfully Connected in MongoDB') }
-else { console.log('Syntax Error: ' + err) }
-});
+//const mongodb_uri = process.env.MONGODB_URI || "mongodb://localhost:27017/netgen";
+//// connect to DB
+//mongoose.connect(mongodb_uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, (err) => {
+//if (!err) { console.log('Successfully Connected in MongoDB') }
+//else { console.log('Syntax Error: ' + err) }
+//});
 // import models
 //const Player = require("./models/player");
 //const Point = require("./models/point");
