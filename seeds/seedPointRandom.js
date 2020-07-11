@@ -64,7 +64,9 @@ function generateServe() {
 };
 
 function generateShot() {
-    return "forehand";
+    const shotList = ["forehand", "backhand"];
+    const randNum = Math.floor(Math.random()*shotList.length);
+    return shotList[randNum];
 };
 
 
@@ -118,22 +120,22 @@ while (point <= 10) {
     let shotArr = [];
     
 
-    //for (let i = 1; i <= pointObj["rallyLength"]; i++) {
-    //    let shotObj = {
-    //        pointNum: point,
-    //        shotNum: i,
-    //        shotNumWithServe: i
-    //    };
-    //    shotObj["shotBy"] = shotObj["shotNum"] % 2 === 0 ? pointObj["receiver"] : pointObj["server"];
-    //    shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
+    for (let i = 1; i <= pointObj["rallyLength"]; i++) {
+        let shotObj = {
+            pointNum: point,
+            shotNum: i,
+            shotNumWithServe: i
+        };
+        shotObj["shotBy"] = shotObj["shotNum"] % 2 === 0 ? pointObj["receiver"] : pointObj["server"];
+        shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
 
         
-    //    let shotStroke = 
-    //    shotObj["shotLocation"] = shotObj["shotNum"] === 1 ? generateServeLocation() : generateShotLocation();
-    //    shotObj["shotStroke"] = shotObj["shotNum"] === 1 ? generateServe() : generateShot();
+        let shotStroke = 
+        shotObj["shotLocation"] = shotObj["shotNum"] === 1 ? generateServeLocation() : generateShotLocation();
+        shotObj["shotStroke"] = shotObj["shotNum"] === 1 ? generateServe() : generateShot();
 
-    //    shotArr.push(shotObj);
-    //};
+        shotArr.push(shotObj);
+    };
     pointObj["shots"] = shotArr;
     
     pointData.push(pointObj);
