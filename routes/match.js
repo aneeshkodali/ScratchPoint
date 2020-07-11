@@ -29,8 +29,12 @@ router.get("/points", function(req, res) {
     //Point.find({}).populate("shots").exec((err, points) => {
     //    if (err) console.log(err);
     //    else res.render("match/points", {points: points});
-    //})
-    
+    //})  
+});
+
+// bar chart TEST
+router.get("/summary", function(req, res) {
+    res.render("match/summary", {points: res.locals.points});
 })
 
 module.exports = router;
