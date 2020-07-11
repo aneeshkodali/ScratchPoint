@@ -9,6 +9,10 @@ function generatePlayer() {
     return players[randNum];
 }
 
+function generatePointWinner() {
+    return Math.random() < .8 ? player1 : player2;
+}
+
 // generate rally length - randomly pick number
 function generatePointRallyLength() {
     const min = 1;
@@ -76,7 +80,7 @@ let pointScorePlayer1 = 0;
 let pointScorePlayer2 = 0;
 let server = generatePlayer();
 
-while (point <= 2) {
+while (point <= 10) {
     let pointObj = {
         point: point,
         setScorePlayer1: setScorePlayer1,
@@ -107,29 +111,29 @@ while (point <= 2) {
     pointObj["gameInSet"] = pointObj["gameScorePlayer1"] + pointObj["gameScorePlayer2"] + 1;
     pointObj["pointInGame"] = pointObj["pointScorePlayer1"] + pointObj["pointScorePlayer2"] + 1;
 
-    pointObj["winner"] = generatePlayer(),
+    pointObj["winner"] = generatePointWinner(),
     pointObj["rallyLength"] =  generatePointRallyLength(),
     pointObj["result"] = generatePointResult(pointObj);
 
     let shotArr = [];
     
 
-    for (let i = 1; i <= pointObj["rallyLength"]; i++) {
-        let shotObj = {
-            pointNum: point,
-            shotNum: i,
-            shotNumWithServe: i
-        };
-        shotObj["shotBy"] = shotObj["shotNum"] % 2 === 0 ? pointObj["receiver"] : pointObj["server"];
-        shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
+    //for (let i = 1; i <= pointObj["rallyLength"]; i++) {
+    //    let shotObj = {
+    //        pointNum: point,
+    //        shotNum: i,
+    //        shotNumWithServe: i
+    //    };
+    //    shotObj["shotBy"] = shotObj["shotNum"] % 2 === 0 ? pointObj["receiver"] : pointObj["server"];
+    //    shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
 
         
-        let shotStroke = 
-        shotObj["shotLocation"] = shotObj["shotNum"] === 1 ? generateServeLocation() : generateShotLocation();
-        shotObj["shotStroke"] = shotObj["shotNum"] === 1 ? generateServe() : generateShot();
+    //    let shotStroke = 
+    //    shotObj["shotLocation"] = shotObj["shotNum"] === 1 ? generateServeLocation() : generateShotLocation();
+    //    shotObj["shotStroke"] = shotObj["shotNum"] === 1 ? generateServe() : generateShot();
 
-        shotArr.push(shotObj);
-    };
+    //    shotArr.push(shotObj);
+    //};
     pointObj["shots"] = shotArr;
     
     pointData.push(pointObj);
