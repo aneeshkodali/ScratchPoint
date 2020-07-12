@@ -23,8 +23,8 @@ router.get("/", function(req, res) {
 });
 
 // see match data
-router.get("/points", function(req, res) {
-    res.render("match/points", {points: res.locals.points})
+router.get("/data", function(req, res) {
+    res.render("match/data", {points: res.locals.points})
 
     //Point.find({}).populate("shots").exec((err, points) => {
     //    if (err) console.log(err);
