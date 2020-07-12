@@ -6,7 +6,7 @@ const seedDBPoint = require("../seeds/seedPoint");
 const seedDBShot = require("../seeds/seedShot");
 const Shot = require("../models/shot");
 
-const pointData = require("../seeds/seedPointRandom");
+const pointData = require("../seeds/generateMatch");
 router.use(function(req, res, next) {
     res.locals.points = pointData;
     next();
