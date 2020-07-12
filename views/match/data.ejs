@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-        <% points.forEach(point => { %>
+        <% data.forEach(point => { %>
           <tr>
               <th scope="row"><%= point.point %></th>
               <td><%= point.setScore %></td>
@@ -61,7 +61,7 @@
       </thead>
       <tbody>
       
-      <% points.forEach(point => { %>
+      <% data.forEach(point => { %>
         <% point.shots.sort((a,b) => { %>
           <% return a.shotNum - b.shotNum || a.shotNumWithServe - b.shotNumWithServe %>
         <% }).forEach(shot => { %>

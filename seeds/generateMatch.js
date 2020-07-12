@@ -76,7 +76,7 @@ function generateShot() {
 };
 
 
-let pointData = [];
+let matchData = [];
 
 // initialize data for 1st point (all other data for this point and for other points will be calculated from these)    
 let point = 1;
@@ -145,7 +145,7 @@ while (playMatch) {
     };
     pointObj["shots"] = shotArr;
     
-    pointData.push(pointObj);
+    matchData.push(pointObj);
     
 
     // update game scores, point scores, and server
@@ -175,5 +175,5 @@ while (playMatch) {
 
 
 
-module.exports = pointData;
+module.exports = matchData;
 
