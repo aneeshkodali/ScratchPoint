@@ -88,7 +88,8 @@ let pointScorePlayer1 = 0;
 let pointScorePlayer2 = 0;
 let server = generatePlayer();
 
-while (point <= 10) {
+let playMatch = true;
+while (playMatch) {
     let pointObj = {
         point: point,
         setScorePlayer1: setScorePlayer1,
@@ -147,7 +148,7 @@ while (point <= 10) {
     pointData.push(pointObj);
     
 
-    // update game
+    // update game scores, point scores, and server
     if (pointObj["winner"] === player1) {
         if (pointScorePlayer1 === 3) {
             gameScorePlayer1++;
@@ -162,6 +163,9 @@ while (point <= 10) {
             pointScorePlayer2 = 0;
             server = changeServer(pointObj["server"]);
         } else pointScorePlayer2++;
+    }
+    if (gameScorePlayer1===3 || gameScorePlayer2===3) {
+        playMatch = false;
     }
     
     point++;
