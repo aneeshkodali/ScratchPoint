@@ -15,18 +15,42 @@
 
 <script>
     
-    google.charts.setOnLoadCallback(drawTable);
+    google.charts.setOnLoadCallback(drawPointTable);
 
-    function drawTable() {
-        const pointData = new google.visualization.DataTable();
-       pointData.addColumn("number", "Point #");
-       <% data.forEach(point => { %>
-        pointData.addRows(<%= point.point %>);
+    function drawPointTable() {
+     
+
+      const pointData = new google.visualization.DataTable();
+      pointData.addColumn("number", "Point #");
+      pointData.addColumn("string", "Set Score");
+      pointData.addColumn("string", "Game Score");
+      pointData.addColumn("string", "Point Score");
+      pointData.addColumn("string", "Server");
+      pointData.addColumn("string", "Side");
+      pointData.addColumn("string", "Rally Length");
+      pointData.addColumn("string", "Winner");
+      pointData.addColumn("string", "Result");
+
+      const rows = [];
+      <% data.forEach(point => { %>
+        rows.push([
+          <%= point.point %>,
+         "<%= point.setScore %>",
+         "<%= point.gameScore %>",
+         "<%= point.pointScore %>",
+         "<%= point.server %>",
+         "<%= point.side %>",
+         "<%= point.rallyLength %>",
+         "<%= point.winner %>",
+         "<%= point.result %>"
+        ]);
        <% }) %>
+       pointData.addRows(rows);
+
 
         const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
 
-        pointTable.draw(pointData, {showRowNumber: true, width: '100%', height: '100%'});
+        pointTable.draw(pointData);
     };
   </script>
 <%- include("../partials/footer") %>
