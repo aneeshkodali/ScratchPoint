@@ -66,16 +66,27 @@
      
       const shotData = new google.visualization.DataTable();
       shotData.addColumn("number", "Point #");
-      //shotData.addColumn("number", "Shot #");
-      //pointData.addColumn("number", "Shot # w/Serve");
-      //pointData.addColumn("string", "Shot By");
-      //pointData.addColumn("string", "Shot");
-      //pointData.addColumn("string", "Shot Location");
-      //pointData.addColumn("string", "Result");
+      shotData.addColumn("number", "Shot #");
+      shotData.addColumn("number", "Shot # w/Serve");
+      shotData.addColumn("string", "Shot By");
+      shotData.addColumn("string", "Shot");
+      shotData.addColumn("string", "Shot Location");
+      shotData.addColumn("string", "Result");
 
       const rows = [];
       <% data.forEach(point => { %>
-      rows.push([<%= point.point %>])  
+        <% point.shots.forEach(shot => { %>
+          rows.push([
+            <%= point.point %>,
+            <%= shot.shotNum %>,
+            <%= shot.shotNumWithServe %>,
+            "<%= shot.shotBy %>",
+            "<%= shot.shotStroke %>",
+            "<%= shot.shotLocation %>",
+           " <%= shot.shotResult %>"
+          ]);
+        <% }) %>
+          
       
        <% }) %>
        shotData.addRows(rows);
