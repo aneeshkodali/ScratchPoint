@@ -1,25 +1,32 @@
 <%- include("../partials/header") %>
 
-
-  
-
-
 <h1>Match Summary</h1>
 
 <a href="/match">Go back</a>
 
-<h3>Table</h3>
+<div class="row">
 
-<div id="pointTable"></div>
+  <div class="col-md-6">
+    <h2 class="sub-header">Points</h2>
+    <div class="table-responsive" id="pointTable"></div>
+  </div>
+ 
+  <div class="col-md-6">
+    <h2 class="sub-header">Shots</h2>
+    <div class="table-responsive" id="shotTable"></div>
+  </div>
+ 
+</div>
+
+
 
 
 <script>
-    
     google.charts.setOnLoadCallback(drawPointTable);
 
+    
     function drawPointTable() {
      
-
       const pointData = new google.visualization.DataTable();
       pointData.addColumn("number", "Point #");
       pointData.addColumn("string", "Set Score");
@@ -47,10 +54,36 @@
        <% }) %>
        pointData.addRows(rows);
 
+      const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
 
-        const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
-
-        pointTable.draw(pointData);
+      pointTable.draw(pointData, {sort: "disable"});
     };
+
+    google.charts.setOnLoadCallback(drawShotTable);
+
+    
+    function drawShotTable() {
+     
+      const shotData = new google.visualization.DataTable();
+      shotData.addColumn("number", "Point #");
+      //shotData.addColumn("number", "Shot #");
+      //pointData.addColumn("number", "Shot # w/Serve");
+      //pointData.addColumn("string", "Shot By");
+      //pointData.addColumn("string", "Shot");
+      //pointData.addColumn("string", "Shot Location");
+      //pointData.addColumn("string", "Result");
+
+      const rows = [];
+      <% data.forEach(point => { %>
+      rows.push([<%= point.point %>])  
+      
+       <% }) %>
+       shotData.addRows(rows);
+
+      const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+
+      shotTable.draw(shotData);
+    };
+
   </script>
 <%- include("../partials/footer") %>
