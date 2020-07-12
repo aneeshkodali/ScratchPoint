@@ -9,6 +9,10 @@ function generatePlayer() {
     return players[randNum];
 }
 
+function changeServer(currentServer) {
+    return players.filter(player => player != currentServer)[0];
+}
+
 function generatePointWinner() {
     return Math.random() < .8 ? player1 : player2;
 }
@@ -46,6 +50,8 @@ function generatePointResult(point) {
         }
     }
 };
+
+
 
 function generateServeLocation() {
     const locationListServe = ["out wide", "into the body", "down the T"];
@@ -140,11 +146,29 @@ while (point <= 10) {
     
     pointData.push(pointObj);
     
-    if (pointObj["winner"] === player1) pointScorePlayer1++;
-    else pointScorePlayer2++;
+
+    // update game
+    if (pointObj["winner"] === player1) {
+        if (pointScorePlayer1 === 3) {
+            gameScorePlayer1++;
+            pointScorePlayer1 = 0;
+            pointScorePlayer2 = 0;
+            server = changeServer(pointObj["server"]);
+        } else pointScorePlayer1++;
+    } else {
+        if (pointScorePlayer2 === 3) {
+            gameScorePlayer2++;
+            pointScorePlayer1 = 0;
+            pointScorePlayer2 = 0;
+            server = changeServer(pointObj["server"]);
+        } else pointScorePlayer2++;
+    }
     
     point++;
 };
+
+
+
 
 
 module.exports = pointData;
