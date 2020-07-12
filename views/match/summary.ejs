@@ -22,11 +22,12 @@
 
 
 <script>
-    google.charts.setOnLoadCallback(drawPointTable);
+    google.charts.setOnLoadCallback(drawChart);
 
     
-    function drawPointTable() {
+    function drawChart() {
      
+      // Set up pointTable columns
       const pointData = new google.visualization.DataTable();
       pointData.addColumn("number", "Point #");
       pointData.addColumn("string", "Set Score");
@@ -38,9 +39,22 @@
       pointData.addColumn("string", "Winner");
       pointData.addColumn("string", "Result");
 
-      const rows = [];
+      // set up shotTable Columns
+      const shotData = new google.visualization.DataTable();
+      shotData.addColumn("number", "Point #");
+      shotData.addColumn("number", "Shot #");
+      shotData.addColumn("number", "Shot # w/Serve");
+      shotData.addColumn("string", "Shot By");
+      shotData.addColumn("string", "Shot");
+      shotData.addColumn("string", "Shot Location");
+      shotData.addColumn("string", "Result");
+
+
+
+      const pointRows = [];
+      const shotRows = [];
       <% data.forEach(point => { %>
-        rows.push([
+        pointRows.push([
           <%= point.point %>,
          "<%= point.setScore %>",
          "<%= point.gameScore %>",
@@ -51,32 +65,8 @@
          "<%= point.winner %>",
          "<%= point.result %>"
         ]);
-       <% }) %>
-       pointData.addRows(rows);
-
-      const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
-
-      pointTable.draw(pointData, {sort: "disable"});
-    };
-
-    google.charts.setOnLoadCallback(drawShotTable);
-
-    
-    function drawShotTable() {
-     
-      const shotData = new google.visualization.DataTable();
-      shotData.addColumn("number", "Point #");
-      shotData.addColumn("number", "Shot #");
-      shotData.addColumn("number", "Shot # w/Serve");
-      shotData.addColumn("string", "Shot By");
-      shotData.addColumn("string", "Shot");
-      shotData.addColumn("string", "Shot Location");
-      shotData.addColumn("string", "Result");
-
-      const rows = [];
-      <% data.forEach(point => { %>
         <% point.shots.forEach(shot => { %>
-          rows.push([
+          shotRows.push([
             <%= point.point %>,
             <%= shot.shotNum %>,
             <%= shot.shotNumWithServe %>,
@@ -86,15 +76,29 @@
            " <%= shot.shotResult %>"
           ]);
         <% }) %>
-          
-      
        <% }) %>
-       shotData.addRows(rows);
+
+       pointData.addRows(pointRows);
+       shotData.addRows(shotRows);
+
+      const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
+      const pointTableOptions = {sort: "disable"};
+      pointTable.draw(pointData, pointTableOptions);
 
       const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+      const shotTableOptions = {sort: "disable"};
+      shotTable.draw(shotData, shotTableOptions);
 
-      shotTable.draw(shotData);
+      google.visualization.events.addListener(pointTable, "select", clickPointRow);
+      function clickPointRow(e) {
+        console.log("POINT TABLE CLICKED");
+        //console.log(pointTable.getSelection().length);
+      }
+
     };
+
+  
+  
 
   </script>
 <%- include("../partials/footer") %>
