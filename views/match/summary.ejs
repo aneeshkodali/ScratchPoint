@@ -22,9 +22,9 @@
 
 
 <script>
-    google.charts.setOnLoadCallback(drawChart);
 
-    
+    google.charts.setOnLoadCallback(drawChart);
+  
     function drawChart() {
      
       // Set up pointTable columns
@@ -49,8 +49,7 @@
       shotData.addColumn("string", "Shot Location");
       shotData.addColumn("string", "Result");
 
-
-
+      // Add rows to tables
       const pointRows = [];
       const shotRows = [];
       <% data.forEach(point => { %>
@@ -81,25 +80,35 @@
        pointData.addRows(pointRows);
        shotData.addRows(shotRows);
 
+      // Create and draw table
       const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
       const pointTableOptions = {sort: "disable"};
       pointTable.draw(pointData, pointTableOptions);
 
-      const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
-      const shotTableOptions = {sort: "disable"};
-      shotTable.draw(shotData, shotTableOptions);
-
+      //const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+      //const shotTableOptions = {sort: "disable"};
+      //shotTable.draw(shotData, shotTableOptions);
+      let shotView;
+      
+      // "click listener" function to filter shot table rows based on point clicked
       google.visualization.events.addListener(pointTable, "select", clickPointRow);
       function clickPointRow(e) {
-        //console.log(e);
         const selectedRow = pointTable.getSelection()[0];
         if (selectedRow) {
-          const pointNum = pointData.getValue(selectedRow.row, 0)
+          const pointNum = pointData.getValue(selectedRow.row, 0);
+          shotView = new google.visualization.DataView(shotData);
+          shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
+          
         console.log(`Point # ${pointNum}`);
         } else {
+          shotView = new google.visualization.DataView(shotData);
           console.log("Row Unclicked");
         }
         
+        const shotTable = new google.visualization.Table(document.getElementById("shotTable"));
+        shotTable.draw(shotView);
+
+
       }
 
     };
