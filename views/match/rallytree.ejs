@@ -1,6 +1,22 @@
 <%- include("../partials/header") %>
 
 <h1>Rally Tree</h1>
+<a href="/match">Go back</a>
+
 <p>See distribution of points by rally length</p>
+
+View as: 
+<select name="playerSelected" id="playerSelected">
+    <% const players = [data[0].server, data[0].receiver] %>
+    <% players.sort((a,b) => a - b).forEach(player => { %>
+        <option value="<%= player %>"><%= player %></option>
+    <% }) %>
+</select>
+
+
+<script>
+    const playerSelected = document.getElementById("playerSelected").textContent;
+    
+</script>
 
 <%- include("../partials/footer") %>
