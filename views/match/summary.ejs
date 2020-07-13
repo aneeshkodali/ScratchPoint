@@ -100,7 +100,7 @@
       if (selectedRow) {
         const pointNum = pointData.getValue(selectedRow.row, 0);
         shotView = new google.visualization.DataView(shotData);
-        // filter shot data rows
+        // filter shot data
         shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
       } else {
         shotView = new google.visualization.DataView(shotData);
