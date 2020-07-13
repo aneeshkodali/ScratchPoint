@@ -5,84 +5,117 @@
 <a href="/match">Go back</a>
 
 <div class="row">
-  
-  <!--Point Table-->
+
   <div class="col-md-6">
     <h2 class="sub-header">Points</h2>
-    <div class="table-responsive">
-      <table id="pointTable" class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Point #</th>
-            <th scope="col">Set Score</th>
-            <th scope="col">Game Score</th>
-            <th scope="col">Point Score</th>
-            <th scope="col">Server</th>
-            <th scope="col">Side</th>
-            <th scope="col">Rally Length</th>
-            <th scope="col">Winner</th>
-            <th scope="col">Result</th>
-          </tr>
-        </thead>
-        <tbody>
-        <% data.forEach(point => { %>
-          <tr>
-              <th scope="row"><%= point.point %></th>
-              <td><%= point.setScore %></td>
-              <td><%= point.gameScore %></td>
-              <td><%= point.pointScore %></td>
-              <td><%= point.server %></td>
-              <td><%= point.side %></td>
-              <td><%= point.rallyLength %></td>
-              <td><%= point.winner %></td>                
-              <td><%= point.result %></td>
-            </tr>
-        <% }) %>
-        </tbody>
-      </table>
-    </div>
+    <div class="table-responsive" id="pointTable"></div>
   </div>
-  
- <!--Shot Table-->
- <div class="col-md-6">
-  <h2 class="sub-header">Shots</h2>
-  <div class="table-responsive">
-    <table id="shotTable" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Point #</th>
-          <th scope="col">Shot #</th>
-          <th scope="col">Shot # w/Serve</th>
-          <th scope="col">Shot By</th>
-          <th scope="col">Shot</th>
-          <th scope="col">Location</th>
-          <th scope="col">Result</th>
-        </tr>
-      </thead>
-      <tbody>
-      
-      <% data.forEach(point => { %>
-        <% point.shots.sort((a,b) => { %>
-          <% return a.shotNum - b.shotNum || a.shotNumWithServe - b.shotNumWithServe %>
-        <% }).forEach(shot => { %>
-          <tr>
-            <td><%= shot.pointNum %></td>
-            <td><%= shot.shotNum %></td>
-            <td><%= shot.shotNumWithServe %></td>
-            <td><%= shot.shotBy %></td>
-            <td><%= shot.shotStroke %></td>
-            <td><%= shot.shotLocation %></td>
-            <td><%= shot.shotResult %></td>
-          </tr>
-        <% }) %>
+ 
+  <div class="col-md-6">
+    <h2 class="sub-header">Shots</h2>
+    <div class="table-responsive" id="shotTable"></div>
+  </div>
+ 
+</div>
+
+
+
+
+<script>
+
+  // function to draw google charts
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    
+    // Set up pointTable columns
+    const pointData = new google.visualization.DataTable();
+    pointData.addColumn("number", "Point #");
+    pointData.addColumn("string", "Set Score");
+    pointData.addColumn("string", "Game Score");
+    pointData.addColumn("string", "Point Score");
+    pointData.addColumn("string", "Server");
+    pointData.addColumn("string", "Side");
+    pointData.addColumn("string", "Rally Length");
+    pointData.addColumn("string", "Winner");
+    pointData.addColumn("string", "Result");
+
+    // set up shotTable Columns
+    const shotData = new google.visualization.DataTable();
+    shotData.addColumn("number", "Point #");
+    shotData.addColumn("number", "Shot #");
+    shotData.addColumn("number", "Shot # w/Serve");
+    shotData.addColumn("string", "Shot By");
+    shotData.addColumn("string", "Shot");
+    shotData.addColumn("string", "Shot Location");
+    shotData.addColumn("string", "Result");
+
+    // Add rows to data
+    const pointRows = [];
+    const shotRows = [];
+    <% data.forEach(point => { %>
+      pointRows.push([
+        <%= point.point %>,
+        "<%= point.setScore %>",
+        "<%= point.gameScore %>",
+        "<%= point.pointScore %>",
+        "<%= point.server %>",
+        "<%= point.side %>",
+        "<%= point.rallyLength %>",
+        "<%= point.winner %>",
+        "<%= point.result %>"
+      ]);
+      <% point.shots.forEach(shot => { %>
+        shotRows.push([
+          <%= point.point %>,
+          <%= shot.shotNum %>,
+          <%= shot.shotNumWithServe %>,
+          "<%= shot.shotBy %>",
+          "<%= shot.shotStroke %>",
+          "<%= shot.shotLocation %>",
+          " <%= shot.shotResult %>"
+        ]);
       <% }) %>
-      </tbody>
-    </table>
-  </div>
-</div>
+      <% }) %>
 
-</div>
+      pointData.addRows(pointRows);
+      shotData.addRows(shotRows);
+
+    // Create and draw table from data
+    const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
+    const pointTableOptions = {sort: "disable"};
+    pointTable.draw(pointData, pointTableOptions);
+
+    //const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+    //const shotTableOptions = {sort: "disable"};
+    //shotTable.draw(shotData, shotTableOptions);
+    let shotView;
+    
+    // "click listener" function to filter shot table rows based on point clicked
+    google.visualization.events.addListener(pointTable, "select", clickPointRow);
+    function clickPointRow(e) {
+
+      // get "point #" for row clicked
+      const selectedRow = pointTable.getSelection()[0];
+      if (selectedRow) {
+        const pointNum = pointData.getValue(selectedRow.row, 0);
+        shotView = new google.visualization.DataView(shotData);
+        // filter shot data
+        shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
+      } else {
+        shotView = new google.visualization.DataView(shotData);
+      }
+      
+      const shotTable = new google.visualization.Table(document.getElementById("shotTable"));
+      shotTable.draw(shotView);
 
 
+    }
+
+  };
+
+
+
+
+</script>
 <%- include("../partials/footer") %>
-
