@@ -13,9 +13,33 @@ View as:
     <% }) %>
 </select>
 
+<div id="rallyTree"></div>
+
 
 <script>
-    const playerSelected = document.getElementById("playerSelected").textContent;
+
+    // function to draw google charts
+        google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        // Set up pointTable columns
+        const rallyTreeData = new google.visualization.DataTable();
+        rallyTreeData.addColumn("number", "Rally Length");
+        rallyTreeData.addColumn("number", "Points Won");
+
+
+        const pointsObj = {};
+        <% data.forEach(point => { %>
+        <% if (point.winner === data[0].server) { %>
+            pointsObj[<%= point.rallyLength %>] = (pointsObj[<%= point.rallyLength %>] || 0) + 1;
+            <% } %>
+        <% }) %>
+        console.log(pointsObj);
+      
+    }
+    
+    
     
 </script>
 
