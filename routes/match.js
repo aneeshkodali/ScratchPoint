@@ -19,9 +19,9 @@ router.get("/data", function(req, res) {
 
 });
 
-// bar chart TEST
-router.get("/summary", function(req, res) {
-    res.render("match/summary");
+// rally tree
+router.get("/rallytree", function(req, res) {
+    res.render("match/rallytree");
 })
 
 module.exports = router;
