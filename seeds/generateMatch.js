@@ -80,45 +80,45 @@ let matchData = [];
 
 // initialize data for 1st point (all other data for this point and for other points will be calculated from these)    
 let point = 1;
-let setScorePlayer1 = 0;
-let setScorePlayer2 = 0;
-let gameScorePlayer1 = 0;
-let gameScorePlayer2 = 0;
-let pointScorePlayer1 = 0;
-let pointScorePlayer2 = 0;
+let player1SetScore = 0;
+let player2SetScore = 0;
+let player1GameScore = 0;
+let player2GameScore = 0;
+let player1PointScore = 0;
+let player2PointScore = 0;
 let server = generatePlayer();
 
 let playMatch = true;
 while (playMatch) {
     let pointObj = {
         point: point,
-        setScorePlayer1: setScorePlayer1,
-        setScorePlayer2: setScorePlayer2,
-        gameScorePlayer1: gameScorePlayer1,
-        gameScorePlayer2: gameScorePlayer2,
-        pointScorePlayer1: pointScorePlayer1,
-        pointScorePlayer2: pointScorePlayer2,
+        player1SetScore: player1SetScore,
+        player2SetScore: player2SetScore,
+        player1GameScore: player1GameScore,
+        player2GameScore: player2GameScore,
+        player1PointScore: player1PointScore,
+        player2PointScore: player2PointScore,
         server: server,
     };
-    pointObj["side"] = (pointObj["pointScorePlayer1"] + pointObj["pointScorePlayer2"]) % 2 === 0 ? "deuce" : "ad";
+    pointObj["side"] = (pointObj["player1PointScore"] + pointObj["player2PointScore"]) % 2 === 0 ? "deuce" : "ad";
     pointObj["receiver"] = pointObj["server"] === player1 ? player2 : player1;
     
-    pointObj["setScoreServer"] = pointObj["server"] === player1 ? pointObj["setScorePlayer1"] : pointObj["setScorePlayer2"];
-    pointObj["setScoreReceiver"] = pointObj["server"] === player1 ? pointObj["setScorePlayer2"] : pointObj["setScorePlayer1"];
+    pointObj["serverSetScore"] = pointObj["server"] === player1 ? pointObj["player1SetScore"] : pointObj["player2SetScore"];
+    pointObj["receiverSetScore"] = pointObj["server"] === player1 ? pointObj["player2SetScore"] : pointObj["player1SetScore"];
     
-    pointObj["gameScoreServer"] = pointObj["server"] === player1 ? pointObj["gameScorePlayer1"] : pointObj["gameScorePlayer2"];
-    pointObj["gameScoreReceiver"] = pointObj["server"] === player1 ? pointObj["gameScorePlayer2"] : pointObj["gameScorePlayer1"];
+    pointObj["serverGameScore"] = pointObj["server"] === player1 ? pointObj["player1GameScore"] : pointObj["player2GameScore"];
+    pointObj["receiverGameScore"] = pointObj["server"] === player1 ? pointObj["player2GameScore"] : pointObj["player1GameScore"];
 
-    pointObj["pointScoreServer"] = pointObj["server"] === player1 ? pointObj["pointScorePlayer1"] : pointObj["pointScorePlayer2"];
-    pointObj["pointScoreReceiver"] = pointObj["server"] === player1 ? pointObj["pointScorePlayer2"] : pointObj["pointScorePlayer1"];
+    pointObj["serverPointScore"] = pointObj["server"] === player1 ? pointObj["player1PointScore"] : pointObj["player2PointScore"];
+    pointObj["receiverPointScore"] = pointObj["server"] === player1 ? pointObj["player2PointScore"] : pointObj["player1PointScore"];
 
-    pointObj["setScore"] = `${pointObj["setScoreServer"]}-${pointObj["setScoreReceiver"]}`;
-    pointObj["gameScore"] = `${pointObj["gameScoreServer"]}-${pointObj["gameScoreReceiver"]}`;
-    pointObj["pointScore"] = `${pointObj["pointScoreServer"]}-${pointObj["pointScoreReceiver"]}`;
+    pointObj["setScore"] = `${pointObj["serverSetScore"]}-${pointObj["receiverSetScore"]}`;
+    pointObj["gameScore"] = `${pointObj["serverGameScore"]}-${pointObj["receiverGameScore"]}`;
+    pointObj["pointScore"] = `${pointObj["serverPointScore"]}-${pointObj["receiverPointScore"]}`;
 
-    pointObj["setInMatch"] = pointObj["setScorePlayer1"] + pointObj["setScorePlayer2"] + 1;
-    pointObj["gameInSet"] = pointObj["gameScorePlayer1"] + pointObj["gameScorePlayer2"] + 1;
-    pointObj["pointInGame"] = pointObj["pointScorePlayer1"] + pointObj["pointScorePlayer2"] + 1;
+    pointObj["setInMatch"] = pointObj["player1SetScore"] + pointObj["player2SetScore"] + 1;
+    pointObj["gameInSet"] = pointObj["player1GameScore"] + pointObj["player2GameScore"] + 1;
+    pointObj["pointInGame"] = pointObj["player1PointScore"] + pointObj["player2PointScore"] + 1;
 
     pointObj["winner"] = generatePointWinner(),
     pointObj["rallyLength"] =  generatePointRallyLength(),
@@ -150,21 +150,21 @@ while (playMatch) {
 
     // update game scores, point scores, and server
     if (pointObj["winner"] === player1) {
-        if (pointScorePlayer1 === 3) {
-            gameScorePlayer1++;
-            pointScorePlayer1 = 0;
-            pointScorePlayer2 = 0;
+        if (player1PointScore === 3) {
+            player1GameScore++;
+            player1PointScore = 0;
+            player2PointScore = 0;
             server = changeServer(pointObj["server"]);
-        } else pointScorePlayer1++;
+        } else player1PointScore++;
     } else {
-        if (pointScorePlayer2 === 3) {
-            gameScorePlayer2++;
-            pointScorePlayer1 = 0;
-            pointScorePlayer2 = 0;
+        if (player2PointScore === 3) {
+            player2GameScore++;
+            player1PointScore = 0;
+            player2PointScore = 0;
             server = changeServer(pointObj["server"]);
-        } else pointScorePlayer2++;
+        } else player2PointScore++;
     }
-    if (gameScorePlayer1===3 || gameScorePlayer2===3) {
+    if (player1GameScore===3 || player2GameScore===3) {
         playMatch = false;
     }
     
