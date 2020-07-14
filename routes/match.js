@@ -19,6 +19,10 @@ router.get("/data", function(req, res) {
 
 });
 
+router.get("/json", function(req, res) {
+    res.render(res.json(res.locals.data));
+})
+
 // rally tree
 router.get("/rallytree", function(req, res) {
     res.render("match/rallytree");
