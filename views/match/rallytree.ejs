@@ -23,31 +23,79 @@ View as:
 
     function drawChart() {
 
+        // initialize array to create chart data: columns + rows;
+        const dataAgg = [];
+
+        // create columns
+        const columns = ["Player", "Rally Length", "Points Won", "Points Lost"];
+        dataAgg.push(columns);
+
+        // create rows
+        const rows = [];
+        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a < b);
+        const rallyLenMax = Math.max.apply(Math, [<%= data.map(point => point.rallyLength) %>]);
+        for (let player of players) {
+            for (let rallyLen=1; rallyLen <= rallyLenMax; rallyLen++) {
+                rows.push([player, rallyLen, 0, 0]);
+            };
+        };
+        let winner;
+        let rallyLen;
+        let rowsFiltered;
+        <% data.forEach(point => { %>
+            winner = "<%= point.winner %>";
+            rallyLen = <%= point.rallyLength %>;
+            rowsFiltered = rows.filter(row => row[1] === rallyLen);
+            if (winner===rowsFiltered[0][0]) {
+                rowsFiltered[0][2]++;
+                rowsFiltered[1][3]++;
+            } else {
+                rowsFiltered[1][2]++;
+                rowsFiltered[0][3]++;
+            }
+      
+        <% }); %>
+        
+        // push rows to chart data
+        for (let row of rows) {
+            dataAgg.push(row);
+        };
         
 
-        // Set up pointTable columns
-        const rallyTreeData = new google.visualization.DataTable();
-        rallyTreeData.addColumn("number", "Rally Length");
-        rallyTreeData.addColumn("number", "Points Won");
+        // create table for chart data
+        const chartData = google.visualization.arrayToDataTable(dataAgg);
+
+        const chartView = new google.visualization.DataView(chartData);
+
+        const chart = new google.visualization.BarChart(document.getElementById("rallyTree"));
+        const chartOptions = {
+            isStacked: true
+        };
+        chart.draw(chartView, chartOptions);
+
+        //// Set up pointTable columns
+        //const rallyTreeData = new google.visualization.DataTable();
+        //rallyTreeData.addColumn("number", "Rally Length");
+        //rallyTreeData.addColumn("number", "Points Won");
 
       
 
-        const pointsObj = {};
-        <% data.forEach(point => { %>
-        <% if (point.winner === data[0].server) { %>
-            pointsObj[<%= point.rallyLength %>] = (pointsObj[<%= point.rallyLength %>] || 0) + 1;
-            <% } %>
-        <% }) %>
+        //const pointsObj = {};
+        //<% data.forEach(point => { %>
+        //<% if (point.winner === data[0].server) { %>
+        //    pointsObj[<%= point.rallyLength %>] = (pointsObj[<%= point.rallyLength %>] || 0) + 1;
+        //    <% } %>
+        //<% }) %>
 
-        const rows = [];
-        for (let key in pointsObj) {
-            rows.push([Number(key), pointsObj[key]]);
-        } ;
+        //const rows = [];
+        //for (let key in pointsObj) {
+        //    rows.push([Number(key), pointsObj[key]]);
+        //} ;
 
-        rallyTreeData.addRows(rows);
+        //rallyTreeData.addRows(rows);
 
-        const rallyTreeBarChart = new google.visualization.BarChart(document.getElementById("rallyTree"));
-        rallyTreeBarChart.draw(rallyTreeData);
+        //const rallyTreeBarChart = new google.visualization.BarChart(document.getElementById("rallyTree"));
+        //rallyTreeBarChart.draw(rallyTreeData);
       
         
     }
