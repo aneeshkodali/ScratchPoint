@@ -31,36 +31,15 @@
 
   function drawChart() {
 
-    // set up columns for pointTable
-    //const pointTableColumns = ["Point #", "Set Score", "Game Score"]
+    // initialize point data
+    const pointData = [];
+    // add point columns
+    const pointDataColumns = ["Point #", "Set Score", "Game Score", "Point Score", "Server", "Side", "Rally Length", "Winner", "Result"];
+    pointData.push(pointDataColumns);
     
-    // Set up pointTable columns
-    const pointData = new google.visualization.DataTable();
-    pointData.addColumn("number", "Point #");
-    pointData.addColumn("string", "Set Score");
-    pointData.addColumn("string", "Game Score");
-    pointData.addColumn("string", "Point Score");
-    pointData.addColumn("string", "Server");
-    pointData.addColumn("string", "Side");
-    pointData.addColumn("string", "Rally Length");
-    pointData.addColumn("string", "Winner");
-    pointData.addColumn("string", "Result");
-
-    // set up shotTable Columns
-    const shotData = new google.visualization.DataTable();
-    shotData.addColumn("number", "Point #");
-    shotData.addColumn("number", "Shot #");
-    shotData.addColumn("number", "Shot # w/Serve");
-    shotData.addColumn("string", "Shot By");
-    shotData.addColumn("string", "Shot");
-    shotData.addColumn("string", "Shot Location");
-    shotData.addColumn("string", "Result");
-
-    // Add rows to data
-    const pointRows = [];
-    const shotRows = [];
+    // add point rows
     <% data.forEach(point => { %>
-      pointRows.push([
+      pointData.push([
         <%= point.point %>,
         "<%= point.setScore %>",
         "<%= point.gameScore %>",
@@ -71,55 +50,108 @@
         "<%= point.winner %>",
         "<%= point.result %>"
       ]);
-      <% point.shots.forEach(shot => { %>
-        shotRows.push([
-          <%= point.point %>,
-          <%= shot.shotNum %>,
-          <%= shot.shotNumWithServe %>,
-          "<%= shot.shotBy %>",
-          "<%= shot.shotStroke %>",
-          "<%= shot.shotLocation %>",
-          " <%= shot.shotResult %>"
-        ]);
-      <% }) %>
-      <% }) %>
-
-      pointData.addRows(pointRows);
-      shotData.addRows(shotRows);
-
+    <% }); %>
+    
+    // combine columns and rows into one array to create data for 'table' chart
+    const pointTableData = google.visualization.arrayToDataTable(pointData);
+    
     // Create and draw table from data
     const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
-    const pointTableOptions = {sort: "disable"};
-    pointTable.draw(pointData, pointTableOptions);
+    const pointTableOptions = {sort: "disable", height: "500px"};
+    pointTable.draw(pointTableData, pointTableOptions);
 
-    //const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
-    //const shotTableOptions = {sort: "disable"};
-    //shotTable.draw(shotData, shotTableOptions);
-    let shotView;
-    
-    // "click listener" function to filter shot table rows based on point clicked
+    // add listener for point table rows
     google.visualization.events.addListener(pointTable, "select", clickPointRow);
     function clickPointRow(e) {
 
       // get "point #" for row clicked
-      const selectedRow = pointTable.getSelection()[0];
-      if (selectedRow) {
-        const pointNum = pointData.getValue(selectedRow.row, 0);
+      const rowClicked = pointTable.getSelection()[0];
+      if (rowClicked) {
+        // get point number
+        const pointNum = pointTableData.getValue(rowClicked.row, 0);
         document.getElementById("pointClicked").textContent = pointNum;
-        shotView = new google.visualization.DataView(shotData);
-        // filter shot data
-        shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
+
+      
+        
       } else {
         document.getElementById("pointClicked").textContent = '';
-
-        shotView = new google.visualization.DataView(shotData);
       }
-      
-      const shotTable = new google.visualization.Table(document.getElementById("shotTable"));
-      shotTable.draw(shotView);
-
 
     }
+    //// set up shotTable Columns
+    //const shotData = new google.visualization.DataTable();
+    //shotData.addColumn("number", "Point #");
+    //shotData.addColumn("number", "Shot #");
+    //shotData.addColumn("number", "Shot # w/Serve");
+    //shotData.addColumn("string", "Shot By");
+    //shotData.addColumn("string", "Shot");
+    //shotData.addColumn("string", "Shot Location");
+    //shotData.addColumn("string", "Result");
+
+    //// Add rows to data
+    //const pointRows = [];
+    //const shotRows = [];
+    //<% data.forEach(point => { %>
+    //  pointRows.push([
+    //    <%= point.point %>,
+    //    "<%= point.setScore %>",
+    //    "<%= point.gameScore %>",
+    //    "<%= point.pointScore %>",
+    //    "<%= point.server %>",
+    //    "<%= point.side %>",
+    //    "<%= point.rallyLength %>",
+    //    "<%= point.winner %>",
+    //    "<%= point.result %>"
+    //  ]);
+    //  <% point.shots.forEach(shot => { %>
+    //    shotRows.push([
+    //      <%= point.point %>,
+    //      <%= shot.shotNum %>,
+    //      <%= shot.shotNumWithServe %>,
+    //      "<%= shot.shotBy %>",
+    //      "<%= shot.shotStroke %>",
+    //      "<%= shot.shotLocation %>",
+    //      " <%= shot.shotResult %>"
+    //    ]);
+    //  <% }) %>
+    //  <% }) %>
+
+    //  pointData.addRows(pointRows);
+    //  shotData.addRows(shotRows);
+
+    //// Create and draw table from data
+    //const pointTable = new google.visualization.Table(document.getElementById('pointTable'));
+    //const pointTableOptions = {sort: "disable"};
+    //pointTable.draw(pointData, pointTableOptions);
+
+    ////const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+    ////const shotTableOptions = {sort: "disable"};
+    ////shotTable.draw(shotData, shotTableOptions);
+    //let shotView;
+    
+    //// "click listener" function to filter shot table rows based on point clicked
+    //google.visualization.events.addListener(pointTable, "select", clickPointRow);
+    //function clickPointRow(e) {
+
+    //  // get "point #" for row clicked
+    //  const selectedRow = pointTable.getSelection()[0];
+    //  if (selectedRow) {
+    //    const pointNum = pointData.getValue(selectedRow.row, 0);
+    //    document.getElementById("pointClicked").textContent = pointNum;
+    //    shotView = new google.visualization.DataView(shotData);
+    //    // filter shot data
+    //    shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
+    //  } else {
+    //    document.getElementById("pointClicked").textContent = '';
+
+    //    shotView = new google.visualization.DataView(shotData);
+    //  }
+      
+    //  const shotTable = new google.visualization.Table(document.getElementById("shotTable"));
+    //  shotTable.draw(shotView);
+
+
+    //}
 
   };
 
