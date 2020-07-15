@@ -4,9 +4,30 @@
 
 <p>Click on the links below to see data about the match</p>
 
-<a href="/match/data">Data</a>
+<div id="matchMenu">
+    <div class="dropdown">
+        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dataDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Data
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dataDropdownMenuLink">
+          <a class="dropdown-item" href="/match/data">Table</a>
+          <a class="dropdown-item" href="/match/json" target="_blank">JSON (opens in new tab)</a>
+        </div>
+      </div>
+    
+      <div class="dropdown">
+        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="visualizationDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Visualizations
+        </a>
+        <div class="dropdown-menu" aria-labelledby="visualizationDropdownMenuLink">
+          <a class="dropdown-item" href="/match/rallytree">Rally Tree</a>
+        </div>
+      </div>
+</div>
+
+<!--<a href="/match/data">Data</a>
 <a href="/match/json" target="_blank">JSON Data (opens in new tab)</a>
-<a href="/match/rallytree">Rally Tree</a>
+<a href="/match/rallytree">Rally Tree</a>-->
 
 
 
