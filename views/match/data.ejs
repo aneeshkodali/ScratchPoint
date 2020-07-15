@@ -46,7 +46,7 @@
         "<%= point.pointScore %>",
         "<%= point.server %>",
         "<%= point.side %>",
-        "<%= point.rallyLength %>",
+        <%= point.rallyLength %>,
         "<%= point.winner %>",
         "<%= point.result %>"
       ]);
@@ -71,10 +71,36 @@
         const pointNum = pointTableData.getValue(rowClicked.row, 0);
         document.getElementById("pointClicked").textContent = pointNum;
 
-      
+        const shotData = [];
+        // create shot columns
+        const shotDataColumns = ["Shot #", "Shot # w/Serve", "Shot By", "Shot", "Location", "Result"];
+        shotData.push(shotDataColumns);
+
+        <% data.forEach(point => { %>
+          if (<%= point.point %> === pointNum) {
+            <% point.shots.forEach(shot =>  { %>
+              shotData.push([
+              <%= shot.shotNum %>,
+              <%= shot.shotNumWithServe %>,
+              "<%= shot.shotBy %>",
+              "<%= shot.shotStroke %>",
+              "<%= shot.shotLocation %>",
+              "<%= shot.shotResult %>"
+              ]);
+            <% }) %>
+          }
+        <% }) %>
+        // combine columns and rows into one array to create data for 'table' chart
+        const shotTableData = google.visualization.arrayToDataTable(shotData);
+    
+        // Create and draw table from data
+        const shotTable = new google.visualization.Table(document.getElementById('shotTable'));
+        const shotTableOptions = {sort: "disable"};
+        shotTable.draw(shotTableData, shotTableOptions);
         
       } else {
-        document.getElementById("pointClicked").textContent = '';
+        document.getElementById("pointClicked").textContent = "";
+        document.getElementById("shotTable").innerHTML = "";
       }
 
     }
