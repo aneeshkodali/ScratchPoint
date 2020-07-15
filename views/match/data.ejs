@@ -4,15 +4,18 @@
 
 <a href="/match">Go back</a>
 
+
 <div class="row">
 
   <div class="col-md-6">
     <h2 class="sub-header">Points</h2>
+    <p>Click on a point (row) and see the rally for that point in the right table.</p>
     <div class="table-responsive" id="pointTable"></div>
   </div>
  
   <div class="col-md-6">
     <h2 class="sub-header">Shots</h2>
+    <p>Rally for Point # : <strong><span id="pointClicked"></span></strong></p>
     <div class="table-responsive" id="shotTable"></div>
   </div>
  
@@ -27,6 +30,9 @@
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
+
+    // set up columns for pointTable
+    //const pointTableColumns = ["Point #", "Set Score", "Game Score"]
     
     // Set up pointTable columns
     const pointData = new google.visualization.DataTable();
@@ -99,10 +105,13 @@
       const selectedRow = pointTable.getSelection()[0];
       if (selectedRow) {
         const pointNum = pointData.getValue(selectedRow.row, 0);
+        document.getElementById("pointClicked").textContent = pointNum;
         shotView = new google.visualization.DataView(shotData);
         // filter shot data
         shotView.setRows(shotView.getFilteredRows([{column: 0, value: pointNum}]));
       } else {
+        document.getElementById("pointClicked").textContent = '';
+
         shotView = new google.visualization.DataView(shotData);
       }
       
