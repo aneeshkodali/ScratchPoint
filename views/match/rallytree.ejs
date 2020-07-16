@@ -5,24 +5,21 @@
 
 <p>See distribution of points by rally length</p>
 
-View as: 
-<select name="playerSelected" id="playerSelected">
-    <% const players = [data[0].server, data[0].receiver] %>
-    <% players.sort((a,b) => a - b).forEach(player => { %>
-        <option value="<%= player %>"><%= player %></option>
-    <% }) %>
-</select>
 
-<div id="rallyTree"></div>
+<div id="dashboard_div">
+    <div id="filter_div"></div>
+    <div id="chart_div"></div>
+</div>
 
 
 <script>
 
     // function to draw google charts
-        google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
 
+        
         // initialize array to create chart data: columns + rows;
         const dataAgg = [];
 
@@ -32,7 +29,7 @@ View as:
 
         // create rows
         const rows = [];
-        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a < b);
+        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"];
         const rallyLenMax = Math.max.apply(Math, [<%= data.map(point => point.rallyLength) %>]);
         for (let player of players) {
             for (let rallyLen=1; rallyLen <= rallyLenMax; rallyLen++) {
@@ -60,44 +57,54 @@ View as:
         for (let row of rows) {
             dataAgg.push(row);
         };
+
+        
         
 
         // create table for chart data
-        const chartData = google.visualization.arrayToDataTable(dataAgg);
+        const data = google.visualization.arrayToDataTable(dataAgg);
 
-        const chartView = new google.visualization.DataView(chartData);
+        //const chartView = new google.visualization.DataView(data);
 
-        const chart = new google.visualization.BarChart(document.getElementById("rallyTree"));
-        const chartOptions = {
-            isStacked: true
-        };
-        chart.draw(chartView, chartOptions);
-
-        //// Set up pointTable columns
-        //const rallyTreeData = new google.visualization.DataTable();
-        //rallyTreeData.addColumn("number", "Rally Length");
-        //rallyTreeData.addColumn("number", "Points Won");
-
+        //const chart = new google.visualization.BarChart(document.getElementById("rallyTree"));
+        //const chartOptions = {
+        //    isStacked: true
+        //};
+        ////chart.draw(chartView, chartOptions);
       
+  
+        // create dashboard instance
+        const dashboard = new google.visualization.Dashboard(document.getElementById("dashboard_div"));
 
-        //const pointsObj = {};
-        //<% data.forEach(point => { %>
-        //<% if (point.winner === data[0].server) { %>
-        //    pointsObj[<%= point.rallyLength %>] = (pointsObj[<%= point.rallyLength %>] || 0) + 1;
-        //    <% } %>
-        //<% }) %>
-
-        //const rows = [];
-        //for (let key in pointsObj) {
-        //    rows.push([Number(key), pointsObj[key]]);
-        //} ;
-
-        //rallyTreeData.addRows(rows);
-
-        //const rallyTreeBarChart = new google.visualization.BarChart(document.getElementById("rallyTree"));
-        //rallyTreeBarChart.draw(rallyTreeData);
-      
+        // create filter
+        const playerFilter = new google.visualization.ControlWrapper({
+           controlType: "CategoryFilter",
+            containerId: "filter_div",
+            options: {
+                filterColumnLabel: "Player",
+                ui: {
+                    allowMultiple: false,
+                    allowNone: false
+                }
+            },
         
+        });
+
+        // create chart
+        const barChart = new google.visualization.ChartWrapper({
+            chartType: "BarChart",
+            containerId: "chart_div",
+            options: {
+                isStacked: true
+            }
+        });
+
+        // bind
+        dashboard.bind(playerFilter, barChart);
+
+        // draw
+        dashboard.draw(data);
+
     }
     
     
