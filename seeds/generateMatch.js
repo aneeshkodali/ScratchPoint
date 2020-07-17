@@ -129,7 +129,6 @@ while (playMatch) {
 
     for (let i = 1; i <= pointObj["rallyLength"]; i++) {
         let shotObj = {
-            pointNum: point,
             shotNum: i,
             shotNumWithServe: i
         };
@@ -137,7 +136,6 @@ while (playMatch) {
         shotObj["shotResult"] = shotObj["shotNum"] === pointObj["rallyLength"] ? pointObj["result"] : "none";
 
         
-        let shotStroke = 
         shotObj["shotLocation"] = shotObj["shotNum"] === 1 ? generateServeLocation() : generateShotLocation();
         shotObj["shotStroke"] = shotObj["shotNum"] === 1 ? generateServe() : generateShot();
 
@@ -164,7 +162,7 @@ while (playMatch) {
             server = changeServer(pointObj["server"]);
         } else player2PointScore++;
     }
-    if (player1GameScore===3 || player2GameScore===3) {
+    if (player1GameScore===6 || player2GameScore===6) {
         playMatch = false;
     }
     
