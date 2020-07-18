@@ -28,5 +28,10 @@ router.get("/rallytree", function(req, res) {
     res.render("match/rallytree");
 })
 
+// points2set
+router.get("/points2set", function(req, res) {
+    res.render("match/points2set");
+})
+
 module.exports = router;
 
