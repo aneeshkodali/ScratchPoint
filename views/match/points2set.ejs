@@ -5,4 +5,68 @@
 
 <p>See point flow throughout set</p>
 
+<div id="dashboard_div">
+    <div id="filter_div"></div>
+    <div id="chart_div"></div>
+</div>
+
+<script>
+
+    // function to draw google charts
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        // initialize data table
+        const data = new google.visualization.DataTable();
+        // add columns
+        data.addColumn("number", "Set in Match");
+        data.addColumn("number", "Game in Set");
+        data.addColumn("number", "Point in Game");
+        data.addColumn("number", "Point Number");
+        data.addColumn("number", "<%= data[0].server %>");
+        data.addColumn("number", "<%= data[0].receiver %>");
+
+        // game score
+        data.addColumn({type: "string", role: "annotationText"});
+        // server
+        data.addColumn({type: "string", role: "annotationText"});
+        // winner
+        data.addColumn({type: "string", role: "annotationText"});
+        // rallylength
+        data.addColumn({type: "number", role: "annotationText"});
+        // result
+        data.addColumn({type: "string", role: "annotationText"});
+
+        // get rows into array
+        const rows = [];
+
+       
+        // push each row from data into rows
+        let row;
+        <% data.forEach(point => { %>
+            row = [
+                <%= point.setInMatch %>,
+                <%= point.gameInSet %>,
+                <%= point.pointInGame %>,
+                <%= point.point %>,
+                0,
+                0,
+                "<%= point.gameScore %>",
+                "<%= point.server %>",
+                "<%= point.winner %>",
+                <%= point.rallyLength %>,
+                "<%= point.result %>"
+            ];
+            rows.push(row);
+        <% }) %>
+
+        data.addRows(rows);
+
+       
+
+    }
+
+</script>
+
 <%- include("../partials/footer") %>
