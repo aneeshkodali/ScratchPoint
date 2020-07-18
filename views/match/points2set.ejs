@@ -27,17 +27,9 @@
         data.addColumn("number", "<%= data[0].server %>");
         data.addColumn("number", "<%= data[0].receiver %>");
 
-        // game score
-        data.addColumn({type: "string", role: "annotationText"});
-        // server
-        data.addColumn({type: "string", role: "annotationText"});
-        // winner
-        data.addColumn({type: "string", role: "annotationText"});
-        // rallylength
-        data.addColumn({type: "number", role: "annotationText"});
-        // result
-        data.addColumn({type: "string", role: "annotationText"});
-
+        // tooltip
+        data.addColumn({type: "string", role: "tooltip"});
+      
         // get rows into array
         const rows = [];
 
@@ -54,11 +46,11 @@
                 <%= point.point %>,
                 serverVal,
                 receiverVal,
-                "<%= point.gameScore %>",
-                "<%= point.server %>",
-                "<%= point.winner %>",
-                <%= point.rallyLength %>,
-                "<%= point.result %>"
+                `Game Score: ${"<%= point.gameScore %>"}
+                 Server: ${"<%= point.server %>"}
+                 Winner: ${"<%= point.winner %>"}
+                 Rally Length: ${"<%= point.rallyLength %>"}
+                 Result: ${"<%= point.result %>"}`
             ];
             rows.push(row);
             serverVal++;
@@ -89,7 +81,7 @@
             chartType: "LineChart",
             containerId: "chart_div",
             view: {
-                columns: [3, 4, 5]
+                columns: [3, 4, 5, 6]
             },
             options: {
                 title: "Point Distribution",
