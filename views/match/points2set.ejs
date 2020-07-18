@@ -44,14 +44,16 @@
        
         // push each row from data into rows
         let row;
+        let serverVal = 1;
+        let receiverVal = 0;
         <% data.forEach(point => { %>
             row = [
                 <%= point.setInMatch %>,
                 <%= point.gameInSet %>,
                 <%= point.pointInGame %>,
                 <%= point.point %>,
-                0,
-                0,
+                serverVal,
+                receiverVal,
                 "<%= point.gameScore %>",
                 "<%= point.server %>",
                 "<%= point.winner %>",
@@ -59,12 +61,49 @@
                 "<%= point.result %>"
             ];
             rows.push(row);
+            serverVal++;
+            receiverVal++;
         <% }) %>
 
         data.addRows(rows);
 
-       
 
+        // create dashboard instance
+        const dashboard = new google.visualization.Dashboard(document.getElementById("dashboard_div"));
+
+        // create control
+        const setFilter = new google.visualization.ControlWrapper({
+            controlType: "CategoryFilter",
+            containerId: "filter_div",
+            options: {
+                filterColumnLabel: "Set in Match",
+                ui: {
+                    allowMultiple: false,
+                    allowNone: false
+                }
+            }
+        })
+
+        // create line chart
+        const lineChart = new google.visualization.ChartWrapper({
+            chartType: "LineChart",
+            containerId: "chart_div",
+            view: {
+                columns: [3, 4, 5]
+            },
+            options: {
+                title: "Point Distribution",
+                legend: {
+                    position: "right"
+                }
+            }
+        });
+
+        // bind control to chart
+        dashboard.bind(setFilter, lineChart);
+
+        // draw
+        dashboard.draw(data);
     }
 
 </script>
