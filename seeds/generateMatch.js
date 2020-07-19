@@ -1,6 +1,8 @@
+const faker = require("faker");
+
 // initialize players
-const player1 = "Iron Man";
-const player2 = "Thor";
+const player1 = faker.name.findName();
+const player2 = faker.name.findName();
 const players = [player1, player2];
 
 // generate point winner - random draw from players array
