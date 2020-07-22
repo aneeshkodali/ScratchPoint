@@ -1,8 +1,11 @@
 const faker = require("faker");
 
 // initialize players
-const player1 = faker.name.findName();
-const player2 = faker.name.findName();
+function generateName() {
+    return `${faker.name.firstName()} ${faker.name.lastName()}`
+}
+const player1 = generateName();
+const player2 = generateName();
 const players = [player1, player2];
 
 // generate point winner - random draw from players array
