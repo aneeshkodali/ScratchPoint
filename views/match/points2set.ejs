@@ -17,6 +17,11 @@
 
     function drawChart() {
 
+        // array of players
+        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a < b);
+        const playerOne = players[0];
+        const playerTwo = players[1];
+
         // initialize data table
         const data = new google.visualization.DataTable();
         // add columns
@@ -24,10 +29,9 @@
         data.addColumn("number", "Game in Set");
         data.addColumn("number", "Point in Game");
         data.addColumn("number", "Point Number");
-        data.addColumn("number", "<%= data[0].server %>");
-        data.addColumn("number", "<%= data[0].receiver %>");
-
-        // tooltip
+        data.addColumn("number", playerOne);
+        data.addColumn({type: "string", role: "tooltip"});
+        data.addColumn("number", playerTwo);
         data.addColumn({type: "string", role: "tooltip"});
       
         // get rows into array
@@ -36,25 +40,34 @@
        
         // push each row from data into rows
         let row;
-        let serverVal = 1;
-        let receiverVal = 0;
+        let tooltip;
+        let playerOneVal = 0;
+        let playerTwoVal = 0;
         <% data.forEach(point => { %>
+            tooltip = `Game Score: ${"<%= point.gameScore %>"}
+                 Server: ${"<%= point.server %>"}
+                 Winner: ${"<%= point.winner %>"}
+                 Rally Length: ${"<%= point.rallyLength %>"}
+                 Result: ${"<%= point.result %>"}`;
             row = [
                 <%= point.setInMatch %>,
                 <%= point.gameInSet %>,
                 <%= point.pointInGame %>,
                 <%= point.point %>,
-                serverVal,
-                receiverVal,
-                `Game Score: ${"<%= point.gameScore %>"}
-                 Server: ${"<%= point.server %>"}
-                 Winner: ${"<%= point.winner %>"}
-                 Rally Length: ${"<%= point.rallyLength %>"}
-                 Result: ${"<%= point.result %>"}`
+                playerOneVal,
+                tooltip,
+                playerTwoVal,
+                tooltip
             ];
             rows.push(row);
-            serverVal++;
-            receiverVal++;
+            
+            //update score
+            if ("<%= point.winner %>" === playerOne) {
+                playerOneVal++;
+            } else {
+                playerTwoVal++
+            }
+
         <% }) %>
 
         data.addRows(rows);
@@ -68,7 +81,7 @@
             controlType: "CategoryFilter",
             containerId: "filter_div",
             options: {
-                filterColumnLabel: "Set in Match",
+                filterColumnIndex: 0,
                 ui: {
                     allowMultiple: false,
                     allowNone: false
@@ -81,7 +94,7 @@
             chartType: "LineChart",
             containerId: "chart_div",
             view: {
-                columns: [3, 4, 5, 6]
+                columns: [3, 4, 5, 6, 7]
             },
             options: {
                 title: "Point Distribution",
