@@ -3,7 +3,9 @@
 <h1>Points2Set</h1>
 <a href="/match">Go back</a>
 
-<p>See point flow throughout set</p>
+<p>
+    See point flow throughout set. A player has to win at least 24 (6 games times 4 points per game) points to win a set. So, both players start at 24 at the beginning of a set.
+</p>
 
 <div id="dashboard_div">
     <div id="filter_div"></div>
@@ -18,7 +20,7 @@
     function drawChart() {
 
         // array of players
-        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a < b);
+        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a - b);
         const playerOne = players[0];
         const playerTwo = players[1];
 
@@ -41,22 +43,32 @@
         // push each row from data into rows
         let row;
         let tooltip;
+        let p2s = 24;
+        let playerOneP2S;
+        let playerTwoP2S;
         let playerOneVal = 0;
         let playerTwoVal = 0;
         <% data.forEach(point => { %>
+            playerOneP2S = p2s - playerOneVal;
+            playerTwoP2S = p2s - playerTwoVal;
+            //create tooltip string
             tooltip = `Game Score: ${"<%= point.gameScore %>"}
                  Server: ${"<%= point.server %>"}
                  Winner: ${"<%= point.winner %>"}
                  Rally Length: ${"<%= point.rallyLength %>"}
-                 Result: ${"<%= point.result %>"}`;
+                 Result: ${"<%= point.result %>"}
+                 ${playerOne}: ${playerOneP2S}
+                 ${playerTwo}: ${playerTwoP2S}
+                 `
+                 ;
             row = [
                 <%= point.setInMatch %>,
                 <%= point.gameInSet %>,
                 <%= point.pointInGame %>,
                 <%= point.point %>,
-                playerOneVal,
+                playerOneP2S,
                 tooltip,
-                playerTwoVal,
+                playerTwoP2S,
                 tooltip
             ];
             rows.push(row);
@@ -97,9 +109,18 @@
                 columns: [3, 4, 5, 6, 7]
             },
             options: {
-                title: "Point Distribution",
+                title: "Point Flow",
                 legend: {
                     position: "right"
+                },
+                pointSize: 5,
+                vAxis: {
+                    title: "# Points to Win Set",
+                    direction: -1,
+                    ticks: [0,4,8,12,16,20,24],
+                },
+                hAxis: {
+                    title: "Point in Set"
                 }
             }
         });
