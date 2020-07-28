@@ -12,4 +12,17 @@
     <div id="chart_div"></div>
 </div>
 
+<div class="col-md-4">
+    <label for="player">Player</label>
+    <select id="player" class="form-control">
+      <option selected><%= data[0].server %></option>
+      <option><%= data[0].receiver %></option>
+    </select>
+</div>
+
+<script>
+    const playerSelected = document.querySelector("#player");
+    playerSelected.addEventListener("change", (e) => console.log(e.target.value))
+</script>
+
 <%- include("../partials/footer") %>
