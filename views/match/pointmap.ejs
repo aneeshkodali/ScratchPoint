@@ -15,14 +15,129 @@
 <div class="col-md-4">
     <label for="player">Player</label>
     <select id="player" class="form-control">
-      <option selected><%= data[0].server %></option>
-      <option><%= data[0].receiver %></option>
+      <!--<option selected><%= data[0].server %></option>-->
+      <!--<option><%= data[0].receiver %></option>-->
     </select>
 </div>
 
 <script>
-    const playerSelected = document.querySelector("#player");
-    playerSelected.addEventListener("change", (e) => console.log(e.target.value))
+
+    // function to draw google charts
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        
+        // array of players
+        const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a - b);
+        const player = players[0];
+        const opponent = players[1];
+
+
+
+        // initialize data table
+        const data = new google.visualization.DataTable();
+        // add columns
+        data.addColumn("number", "Set in Match");
+        data.addColumn("number", "Game in Set");
+        data.addColumn("number", "Point in Game");
+        data.addColumn("number", "Point Number");
+
+        data.addColumn("number", "Rally Length");
+        data.addColumn("number", "Rally Length Player");
+        data.addColumn("number", "Rally Length Opponent");
+
+         // get rows into array
+         const rows = [];
+        // push each row from data into rows
+        let row;
+        let server;
+        let rallyLen;
+        let rallyLenServer;
+        let rallyLenReceiver;
+        let rallyLenPlayer;
+        let rallyLenOpponent;
+        let colorPlayer;
+        let colorOpponent;
+        <% data.forEach(point => { %>
+
+            //get rally length
+            rallyLen = <%= point.rallyLength %>;
+            server = "<%= point.server %>";
+            rallyLenServer = Math.ceil(rallyLen/2);
+            rallyLenReceiver = rallyLen - rallyLenServer;
+            rallyLenPlayer = server === player ? rallyLenServer : rallyLenReceiver;
+            rallyLenPlayer = rallyLenPlayer === 0 ? null : rallyLenPlayer;
+            rallyLenOpponent = -1*(rallyLen - rallyLenPlayer);
+            rallyLenOpponent = rallyLenOpponent === 0 ? null : rallyLenOpponent;
+
+            colorPlayer = "<%= point.winner %>" === player ? "green" : "gray";
+
+            row = [
+                <%= point.setInMatch %>,
+                <%= point.gameInSet %>,
+                <%= point.pointInGame %>,
+                <%= point.point %>,
+                <%= point.rallyLength %>,
+                rallyLenPlayer,
+                rallyLenOpponent,
+            ];
+            rows.push(row);
+        <% }) %>
+        data.addRows(rows);
+
+        // get max value for chart axis
+        let maxCallback = (max, cur) => Math.max(max, cur);
+        let maxValue = rows.map(row => row[4]).reduce(maxCallback, -Infinity)/2 + 1;
+
+        const barChart = new google.visualization.ChartWrapper({
+            chartType: "ColumnChart",
+            containerId: "chart_div",
+            dataTable: data,
+            view: {
+                columns: [3,5,6]
+            },
+            options: {
+                isStacked: true,
+                vAxis: {
+                    maxValue: maxValue,
+                    minValue: -1*maxValue
+                }
+            }
+        });
+        barChart.draw()
+
+
+        
+
+    }
+
+    ////select dropdown
+    //const playerDropdown = document.querySelector("#player");
+
+    ////add players to dropdown
+    //const players = ["<%= data[0].server %>", "<%= data[0].receiver %>"].sort((a,b) => a - b);
+    //players.forEach((player, index) => {
+    //    let option = document.createElement("option");
+    //    option.text = player;
+    //    option.value = player;
+    //    option.selected = index===0 ? true : false;
+    //    playerDropdown.add(option);
+    //});
+
+    ////add event listener to get player selected
+    //let playerSelected = playerDropdown.value;
+    //let opponentSelected = players.filter(player => player !== playerSelected)[0];
+    //playerDropdown.addEventListener("change", function(e) {
+    //    opponentSelected = playerSelected;
+    //    playerSelected = e.target.value;
+    //});
+
+    //let playerPoints = 0;
+    //let opponentPoints = 0;
+    //<% data.forEach(point => { %>
+    //    "<%= point.winner %>" === playerSelected ? playerPoints++ : opponentPoints ++;
+    //<% }) %>
+    //console.log(playerPoints, opponentPoints);
 </script>
 
 <%- include("../partials/footer") %>
