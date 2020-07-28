@@ -33,5 +33,10 @@ router.get("/points2set", function(req, res) {
     res.render("match/points2set");
 })
 
+//point map
+router.get("/pointmap", function(req, res) {
+    res.render("match/pointmap");
+})
+
 module.exports = router;
 

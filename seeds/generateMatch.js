@@ -19,7 +19,7 @@ function changeServer(currentServer) {
 }
 
 function generatePointWinner() {
-    return Math.random() < .8 ? player1 : player2;
+    return Math.random() < .6 ? player1 : player2;
 }
 
 // generate rally length - randomly pick number
